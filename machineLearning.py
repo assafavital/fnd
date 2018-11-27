@@ -7,7 +7,7 @@ class FNDOpenScoring:
     def __init__(self):
         self.scoring = Openscoring("http://localhost:8080/openscoring")
         self.arguments = {
-            "fakeFactSitesCount": 2.0,
+            "sourceTaggedAsFakeCount": 2.0,
             "reporterScore": 3.0
         }
 
@@ -18,7 +18,7 @@ class FNDOpenScoring:
         jsonObj = json.loads(jsonString)
         self.arguments["similarWebAvgScore"] = jsonObj['average']
         self.arguments["similarWebStdScore"] = jsonObj['variance']
-        self.arguments["sourceTaggedAsFakeCount"] = jsonObj['blacklisted']
+        self.arguments["fakeFactSitesCount"] = jsonObj['blacklisted']
 
     def __call__(self, jsonString):
         self._deploy()
