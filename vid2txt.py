@@ -1,44 +1,42 @@
 import moviepy.editor as MP
 import speech_recognition as SR
 from pydub import AudioSegment
-import argparse
-import os
+import argparse, os
 
-class AudioExtractor:
+class FNDVid2Txt:
 
-    def __init__(self):
-        pass
+    def __call__(self, filename):
+        """
+        Execute audio transcription from video file.
+        :param filename: Video file name (only mp4 files are supported)
+        :return:
+        """
+        self.vidFile = "{}.mp4".format(filename)
+        self.wavFile = "{}.wav".format(filename)
+        self.txtFile = "{}.txt".format(filename)
+        self.extract_audio()
+        self.extract_text()
+        print("Transcription is available at {}".format(self.txtFile))
 
-    def extract(self, file):
-        vid = MP.VideoFileClip("{}.mp4".format(file))
-        output_file = "{}.wav".format(file)
-        vid.audio.write_audiofile(output_file)
-        # AudioSegment.from_mp3(output_file).export("{}.wav".format(audio_path), format="wav")
+    def extract_audio(self):
+        print("Extracting audio from {} ...".format(self.vidFile))
+        vid = MP.VideoFileClip(self.vidFile)
+        vid.audio.write_audiofile(self.wavFile)
 
-
-class TextExtractor:
-
-    def __init__(self):
-        pass
-
-    def extract(self, file):
+    def extract_text(self):
+        print("Transcribing speech from {} ...".format(self.wavFile))
         recognizer = SR.Recognizer()
-        with SR.AudioFile("{}.wav".format(file)) as source:
-            audio = recognizer.record(source)
+        with SR.AudioFile(self.wavFile) as audioSource:
+            text = recognizer.recognize_sphinx(recognizer.record(audioSource))
+            with open(self.txtFile, "w") as txtOutput:
+                txtOutput.write(text)
 
-        recognized = recognizer.recognize_sphinx(audio)
-        print(recognized)
+if __name__ == "__main__":
+    # Argument Parsing
+    argparser = argparse.ArgumentParser()
+    argparser.add_argument("file", type=str)
+    args = argparser.parse_args()
 
-        with open("{}.txt".format(file), "w") as f:
-            f.write(recognized)
-
-
-### MAIN
-ap = argparse.ArgumentParser()
-ap.add_argument("file", type=str)
-args = ap.parse_args()
-
-extractor = AudioExtractor()
-extractor.extract(args.file)
-
-TextExtractor().extract(args.file)
+    # Text Extraction
+    vid2txt = FNDVid2Txt()
+    vid2txt(args.file)
