@@ -19,10 +19,12 @@ class FNDWebRanking:
             rank = numpy.log10(resp.json()['rank'])
         return int(rank)
 
-    def getRanking(self, domains, blacklist):
+    def getRanking(self, domains, blacklist, ignorelist):
         ranks = []
         blacklisted_domains = 0
         for domain in domains:
+            if domain in ignorelist:
+                continue
             rank = self.getSimilarWebRank(domain)
             if rank != -1:
                 ranks.append(rank)
@@ -38,8 +40,9 @@ class FNDWebRanking:
 if __name__ == "__main__":
     ranker = FNDWebRanking()
     blacklist = [domain for domain in open("blacklist.txt","r").read().split()]
+    ignorelist = [domain for domain in open("ignorelist.txt","r").read().split()]
     domains = [domain for domain in open("domains.txt","r").read().split()]
-    print(ranker.getRanking(domains, blacklist))
+    print(ranker.getRanking(domains, blacklist, ignorelist))
 
 
 

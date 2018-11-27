@@ -27,5 +27,9 @@ if __name__ == "__main__":
     blacklist = ["snopes.com", "urbanlegends.about.com", "breakthechain.org",
                  "truthorfiction.com", "sophos.com", "hoax-slayer.com",
                  "vmyths.com", "hoaxbusters.org", "virusbusters.itcs.umich.edu"]
-    jsonString = webRanker.getRanking(domains, blacklist)
+    ignorelist = ["facebook.com", "youtube.com", "google.com",
+                  "instagram.com", "snapchat.com", "twitter.com"]
+    jsonString = webRanker.getRanking(domains, blacklist, ignorelist)
+
     print(jsonString)
+
