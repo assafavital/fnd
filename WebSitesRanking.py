@@ -42,7 +42,9 @@ if __name__ == "__main__":
     blacklist = [domain for domain in open("blacklist.txt","r").read().split()]
     ignorelist = [domain for domain in open("ignorelist.txt","r").read().split()]
     domains = [domain for domain in open("domains.txt","r").read().split()]
-    print(ranker.getRanking(domains, blacklist, ignorelist))
+    json = ranker.getRanking(domains, blacklist, ignorelist)
+    with open("json.txt", "w") as f:
+        f.write(json)
 
 
 

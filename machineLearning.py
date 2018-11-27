@@ -1,23 +1,30 @@
 from openscoring import Openscoring
 import os
 
+class FNDOpenScoring:
 
-os = Openscoring("http://localhost:8080/openscoring")
-kwargs = {"auth": ("admin", "adminadmin")}
+    def __init__(self):
+        self.scoring = Openscoring("http://localhost:8080/openscoring")
+        self.arguments = {
+            "fakeFactSitesCount": 2.0,
+            "reporterScore": 3.0
+        }
 
-try:
-    os.deployFile("FakeNewsDetector", "FakeNewsAIModel.pmml", **kwargs)
-except Exception as ex:
-    print(ex)
+    def _deploy(self):
+        self.scoring.deployFile("FakeNewsDetector", "FakeNewsAIModel.pmml", {"auth": ("admin", "adminadmin")})
 
-arguments = {
-    "similarWebAvgScore": 5.1,
-    "similarWebStdScore": 2.27,
-    "sourceTaggedAsFakeCount": 5.0,
-    "fakeFactSitesCount": 2.0,
-    "reporterScore": 3.0
-}
+    def _setArgs(self, jsonString):
+        self.arguments["similarWebAvgScore"] = jsonString['average']
+        self.arguments["similarWebStdScore"] = jsonString['variance']
+        self.arguments["sourceTaggedAsFakeCount"] = jsonString['blacklisted']
 
-result = os.evaluate("FakeNewsDetector", arguments)
-print(result)
+    def __call__(self, jsonString):
+        self._deploy()
+        self._setArgs(jsonString)
+        result = self.scoring.evaluate("FakeNewsDetector", self.arguments)
+        return result
 
+if __name__ == "__main__":
+    scorer = FNDOpenScoring()
+    with open("json.txt", "r") as f:
+        print(scorer(f.read()))

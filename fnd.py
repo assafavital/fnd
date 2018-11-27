@@ -2,6 +2,7 @@ from vid2txt import FNDVid2Txt
 from bagOfWords import FNDVectorizer
 from google_search import FNDGoogleSearcher
 from WebSitesRanking import FNDWebRanking
+from machineLearning import FNDOpenScoring
 import argparse, os
 
 if __name__ == "__main__":
@@ -31,5 +32,8 @@ if __name__ == "__main__":
                   "instagram.com", "snapchat.com", "twitter.com"]
     jsonString = webRanker.getRanking(domains, blacklist, ignorelist)
 
-    print(jsonString)
+    # Evaluate result of machine learning (PFS)
+    scorer = FNDOpenScoring()
+    print(scorer(jsonString))
+
 

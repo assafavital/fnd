@@ -21,7 +21,7 @@ class FNDVid2Txt:
 
     def extract_audio(self):
         print("Extracting audio from {} ...".format(self.vidFile))
-        vid = MP.VideoFileClip(self.vidFile).cutout(0,25)
+        vid = MP.VideoFileClip(self.vidFile)
         vid.audio.write_audiofile(self.wavFile)
 
     def extract_text(self):

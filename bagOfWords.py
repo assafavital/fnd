@@ -12,7 +12,7 @@ class FNDVectorizer:
         self.vector.max_features = 16
 
     def __call__(self, spoken_text):
-        self.vector.fit([spoken_text])
+        self.vector.fit(spoken_text)
         query = ""
         for feature in self.vector.get_feature_names():
             query += " {}".format(feature)
@@ -21,3 +21,8 @@ class FNDVectorizer:
             f.write(query)
         return query
 
+if __name__ == "__main__":
+    with open("elevator.txt", "r") as f:
+        article = f.read().split()
+        bagger = FNDVectorizer()
+        bagger(article)
