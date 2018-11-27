@@ -29,7 +29,7 @@ class FNDVid2Txt:
         recognizer = SR.Recognizer()
         with SR.AudioFile(self.wavFile) as audioSource:
             credentials = open("creds.json", "r").read()
-            text = recognizer.recognize_google_cloud(recognizer.record(audioSource), credentials_json=credentials)#"17633f0219a85a1c7a730d98bbf790c1445320c4")
+            text = recognizer.recognize_sphinx(recognizer.record(audioSource))#, credentials_json=credentials)#"17633f0219a85a1c7a730d98bbf790c1445320c4")
             with open(self.txtFile, "w") as txtOutput:
                 txtOutput.write(text)
 

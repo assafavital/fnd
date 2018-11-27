@@ -1,6 +1,7 @@
 from vid2txt import FNDVid2Txt
 from bagOfWords import FNDVectorizer
 from google_search import FNDGoogleSearcher
+from WebSitesRanking import FNDWebRanking
 import argparse, os
 
 if __name__ == "__main__":
@@ -20,3 +21,11 @@ if __name__ == "__main__":
     # Execute Google Search
     searcher = FNDGoogleSearcher()
     domains = searcher(query)
+
+    # Calculate domains ranking
+    webRanker = FNDWebRanking()
+    blacklist = ["snopes.com", "urbanlegends.about.com", "breakthechain.org",
+                 "truthorfiction.com", "sophos.com", "hoax-slayer.com",
+                 "vmyths.com", "hoaxbusters.org", "virusbusters.itcs.umich.edu"]
+    jsonString = webRanker.getRanking(domains, blacklist)
+    print(jsonString)

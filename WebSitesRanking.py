@@ -1,8 +1,9 @@
 import requests
+import numpy
 # import statistics
 
 
-class WebRanking:
+class FNDWebRanking:
 
     similarWebUrlPart1 = 'https://api.similarweb.com/v1/website/'
     similarWebUrlPart2 = '/category-rank/category-rank?api_key=09e455f22c5b484eb925891d5122450f'
@@ -14,23 +15,31 @@ class WebRanking:
         print('using similar web API: ' + url)
         resp = requests.get(url)
         print('similar web API response: ' + resp.text)
-        if resp.status_code == 200:
-            rank = resp.json()['rank']
+        if resp.status_code == 200 and "Error" not in resp.text:
+            rank = numpy.log10(resp.json()['rank'])
         return int(rank)
 
-    def getRanking(self, domains):
+    def getRanking(self, domains, blacklist):
         ranks = []
+        blacklisted_domains = 0
         for domain in domains:
-            ranks.append(self.getSimilarWebRank(domain))
+            rank = self.getSimilarWebRank(domain)
+            if rank != -1:
+                ranks.append(rank)
+            if domain in blacklist:
+                blacklisted_domains += 1
         ranks.sort()
         avg = sum(ranks)/len(ranks)
         # variance = statistics.pvariance(ranks)
         variance = sum((avg - value) ** 2 for value in ranks) / len(ranks)
-        return '{ "average":' + str(avg) + ', "variance":' + str(variance) + ' }'
 
+        return '{ "average":' + str(avg) + ', "variance":' + str(variance) + ', "blacklisted":' + str(blacklisted_domains) + ' }'
 
-ranker = WebRanking()
-print(ranker.getRanking(["globes.co.il", "ynet.co.il", "cnn.com"]))
+if __name__ == "__main__":
+    ranker = FNDWebRanking()
+    blacklist = [domain for domain in open("blacklist.txt","r").read().split()]
+    domains = [domain for domain in open("domains.txt","r").read().split()]
+    print(ranker.getRanking(domains, blacklist))
 
 
 

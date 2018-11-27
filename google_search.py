@@ -13,3 +13,12 @@ class FNDGoogleSearcher:
 																			  stop=self.stopPage,
 																			  pause=self.pausePage)]
 
+if __name__ == "__main__":
+	searcher = FNDGoogleSearcher()
+	query = open("query.txt", "r").read()
+	with open("domains.txt", "w") as f:
+		txt = ""
+		for result in searcher(query):
+			txt += " {}".format(result)
+		f.write(txt)
+
