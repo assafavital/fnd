@@ -11,7 +11,7 @@ class AudioExtractor:
 
     def extract(self, file):
         vid = MP.VideoFileClip("{}.mp4".format(file))
-        output_file = "{}.wav".format(audio_path)
+        output_file = "{}.wav".format(file)
         vid.audio.write_audiofile(output_file)
         # AudioSegment.from_mp3(output_file).export("{}.wav".format(audio_path), format="wav")
 
@@ -21,15 +21,15 @@ class TextExtractor:
     def __init__(self):
         pass
 
-    def extract(self, audio_path, text_path):
+    def extract(self, file):
         recognizer = SR.Recognizer()
-        with SR.AudioFile("{}.wav".format(audio_path)) as source:
+        with SR.AudioFile("{}.wav".format(file)) as source:
             audio = recognizer.record(source)
 
         recognized = recognizer.recognize_sphinx(audio)
         print(recognized)
 
-        with open(text_path, "w") as f:
+        with open("{}.txt".format(file), "w") as f:
             f.write(recognized)
 
 
@@ -41,4 +41,4 @@ args = ap.parse_args()
 extractor = AudioExtractor()
 extractor.extract(args.file)
 
-TextExtractor().extract(args.output, "{}.txt".format(args.file))
+TextExtractor().extract(args.file)
