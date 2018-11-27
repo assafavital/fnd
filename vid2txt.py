@@ -9,8 +9,8 @@ class AudioExtractor:
     def __init__(self):
         pass
 
-    def extract(self, video_path, audio_path):
-        vid = MP.VideoFileClip(video_path)
+    def extract(self, file):
+        vid = MP.VideoFileClip("{}.mp4".format(file))
         output_file = "{}.wav".format(audio_path)
         vid.audio.write_audiofile(output_file)
         # AudioSegment.from_mp3(output_file).export("{}.wav".format(audio_path), format="wav")
@@ -35,11 +35,10 @@ class TextExtractor:
 
 ### MAIN
 ap = argparse.ArgumentParser()
-ap.add_argument("input", type=str)
-ap.add_argument("output", type=str)
+ap.add_argument("file", type=str)
 args = ap.parse_args()
 
 extractor = AudioExtractor()
-extractor.extract(args.input, args.output)
+extractor.extract(args.file)
 
-TextExtractor().extract(args.output, "stt_output.txt")
+TextExtractor().extract(args.output, "{}.txt".format(args.file))
