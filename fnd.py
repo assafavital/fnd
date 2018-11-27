@@ -17,11 +17,11 @@ if __name__ == "__main__":
 
     # Generate keywords for Google Search API
     vectorizer = FNDVectorizer()
-    query = vectorizer([text])
+    query = vectorizer([text], therealdeal=False)
 
     # Execute Google Search
     searcher = FNDGoogleSearcher()
-    domains = searcher(query)
+    domains = searcher(query, therealdeal=False)
 
     # Calculate domains ranking
     webRanker = FNDWebRanking()

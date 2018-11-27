@@ -7,12 +7,11 @@ class FNDGoogleSearcher:
 		self.stopPage = 1
 		self.pausePage = 2
 
-	def __call__(self, query, therealdeal=False):
-            if therealdeal is False:
-                with open("query.txt", "r") as f:
-                    query = f.read()
-
-		    return [result.split("/")[2].replace("www.", "") for result in search(query, tld="co.in",
+	def __call__(self, query, therealdeal=True):
+		if not therealdeal:
+			with open("query.txt", "r") as f:
+				query = f.read()
+		return [result.split("/")[2].replace("www.", "") for result in search(query, tld="co.in",
 																			  num=self.numOfMatches,
 																			  stop=self.stopPage,
 																			  pause=self.pausePage)]

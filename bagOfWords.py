@@ -11,14 +11,15 @@ class FNDVectorizer:
         self.vector.stop_words = 'english'
         self.vector.max_features = 16
 
-    def __call__(self, spoken_text):
+    def __call__(self, spoken_text, therealdeal=True):
         self.vector.fit(spoken_text)
         query = ""
         for feature in self.vector.get_feature_names():
             query += " {}".format(feature)
         print("Writing query to file query.txt")
-        with open("query.txt" , "w") as f:
-            f.write(query)
+        if therealdeal:
+            with open("query.txt" , "w") as f:
+                f.write(query)
         return query
 
 if __name__ == "__main__":
