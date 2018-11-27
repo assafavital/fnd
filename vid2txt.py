@@ -17,19 +17,22 @@ class FNDVid2Txt:
         self.extract_audio()
         self.extract_text()
         print("Transcription is available at {}".format(self.txtFile))
+        return open(self.txtFile, "r").read()
 
     def extract_audio(self):
         print("Extracting audio from {} ...".format(self.vidFile))
-        vid = MP.VideoFileClip(self.vidFile)
+        vid = MP.VideoFileClip(self.vidFile).cutout(0,25)
         vid.audio.write_audiofile(self.wavFile)
 
     def extract_text(self):
         print("Transcribing speech from {} ...".format(self.wavFile))
         recognizer = SR.Recognizer()
         with SR.AudioFile(self.wavFile) as audioSource:
-            text = recognizer.recognize_sphinx(recognizer.record(audioSource))
+            credentials = open("creds.json", "r").read()
+            text = recognizer.recognize_google_cloud(recognizer.record(audioSource), credentials_json=credentials)#"17633f0219a85a1c7a730d98bbf790c1445320c4")
             with open(self.txtFile, "w") as txtOutput:
                 txtOutput.write(text)
+
 
 if __name__ == "__main__":
     # Argument Parsing

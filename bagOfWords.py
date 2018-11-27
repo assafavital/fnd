@@ -1,31 +1,23 @@
 from sklearn.feature_extraction.text import CountVectorizer
 
-sentences = ['Hello, how are you!',
-             'Win money, win from home.',
-             'Call me now.',
-             'Hello, Call hello you tomorrow?']
+class FNDVectorizer:
 
-with open("stt_output.txt", "r") as f:
-    sentences = [f.read()]
+    def __init__(self):
+        self.vector = CountVectorizer()
+        self._define_vector()
 
-count_vector = CountVectorizer()
+    def _define_vector(self):
+        self.vector.lowercase = True
+        self.vector.stop_words = 'english'
+        self.vector.max_features = 16
 
-# configuring sklearn learn CountVectorizer to set all words to lower case,
-# filter stop words and return max feature names
-count_vector.lowercase = True
-count_vector.stop_words = 'english'
-count_vector.max_features = 16
-
-# print(count_vector)
-
-count_vector.fit(sentences)
-# print(count_vector.get_feature_names())
-
-query = ""
-for feature in count_vector.get_feature_names():
-    query += " {}".format(feature)
-
-with open("queries.txt", "w") as f:
-    f.write(query)
-
+    def __call__(self, spoken_text):
+        self.vector.fit([spoken_text])
+        query = ""
+        for feature in self.vector.get_feature_names():
+            query += " {}".format(feature)
+        print("Writing query to file query.txt")
+        with open("query.txt" , "w") as f:
+            f.write(query)
+        return query
 
