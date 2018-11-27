@@ -11,7 +11,8 @@ except Exception as ex:
     print(ex)
 
 arguments = {
-    "similarWebScore": 5.1,
+    "similarWebAvgScore": 5.1,
+    "similarWebStdScore": 2.27,
     "sourceTaggedAsFakeCount": 5.0,
     "fakeFactSitesCount": 2.0,
     "reporterScore": 3.0
