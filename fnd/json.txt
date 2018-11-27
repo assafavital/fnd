@@ -1,0 +1,1 @@
+{ "average":2.0, "variance":0.5, "blacklisted":1 }

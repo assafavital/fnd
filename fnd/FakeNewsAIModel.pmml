@@ -1,0 +1,30 @@
+<PMML xmlns="http://www.dmg.org/PMML-4_2" version="4.2">
+    <Header description="Fake news detector AI model">
+       <Timestamp>2018-11-27</Timestamp>
+    </Header>
+    <DataDictionary numberOfFields="4">
+        <DataField dataType="double" name="similarWebAvgScore" optype="continuous"/>
+        <DataField dataType="double" name="similarWebStdScore" optype="continuous"/>
+        <DataField dataType="double" name="sourceTaggedAsFakeCount" optype="continuous"/>
+        <DataField dataType="double" name="fakeFactSitesCount" optype="continuous"/>
+        <DataField dataType="double" name="reporterScore" optype="continuous"/>
+        <DataField dataType="double" name="probabilityOfFakeNews" optype="continuous"/>
+    </DataDictionary>
+    <RegressionModel algorithmName="logisticRegression" functionName="regression" modelName="Logistic regression" normalizationMethod="logit" targetFieldName="probabilityOfFakeNews">
+        <MiningSchema>
+            <MiningField name="similarWebAvgScore"/>
+            <MiningField name="similarWebStdScore"/>
+            <MiningField name="sourceTaggedAsFakeCount"/>
+            <MiningField name="fakeFactSitesCount"/>
+            <MiningField name="reporterScore"/>
+            <MiningField name="probabilityOfFakeNews" usageType="target"/>
+        </MiningSchema>
+        <RegressionTable targetCategory="fake news probability" intercept="-1.721156349">
+            <NumericPredictor coefficient="0.504694764853" name="similarWebAvgScore"/>
+            <NumericPredictor coefficient="0.2056938264853" name="similarWebStdScore"/>
+            <NumericPredictor coefficient="-0.300255695157276" name="sourceTaggedAsFakeCount"/>
+            <NumericPredictor coefficient="15.879640707112" name="fakeFactSitesCount"/>
+            <NumericPredictor coefficient="0.00020330466648" name="reporterScore"/>
+        </RegressionTable>
+    </RegressionModel>
+</PMML>

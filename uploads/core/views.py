@@ -4,7 +4,8 @@ from django.core.files.storage import FileSystemStorage
 
 from uploads.core.models import Document
 from uploads.core.forms import DocumentForm
-
+from fnd.fnd import mainFlow
+from threading import Thread
 
 def home(request):
     documents = Document.objects.all()
@@ -17,9 +18,21 @@ def simple_upload(request):
         fs = FileSystemStorage()
         filename = fs.save(myfile.name, myfile)
         uploaded_file_url = fs.url(filename)
+        thread = Thread(target=mainFlow, args=("fnd\{}".format(filename.split(".")[0]), False))
+        thread.start()
         return render(request, 'core/simple_upload.html', {
             'uploaded_file_url': uploaded_file_url
         })
+
+    if request.method == 'GET':
+        lines = int(request.GET.get("lines", -1))
+        if lines < 0:
+            return render(request, 'core/simple_upload.html')
+
+        return render(request, 'core/async_response.html', {
+            'log_text': open("fnd\log.txt", "r").readlines()
+        })
+
     return render(request, 'core/simple_upload.html')
 
 

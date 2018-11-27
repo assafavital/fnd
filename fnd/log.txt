@@ -1,0 +1,18 @@
+
+Extracting audio from fnd\arik_bRYbIhg.mp4 ...
+Transcribing speech from fnd\arik_bRYbIhg.wav ...
+Transcription is available at fnd\arik_bRYbIhg.txt
+Writing query to file query.txt
+Google search: " 12 confessed elevator flesh franklin lbs lying morning mr necessary old philadelphia police reluctantly stuck wife"
+
+Got the following domains:
+	snopes.com
+	thatsnonsense.com
+	hoax-alert.leadstories.com
+	forums.somd.com
+	apnews.com
+	vox.com
+	www2.philly.com
+	nytimes.com
+
+ Credibility Score: 0.0%

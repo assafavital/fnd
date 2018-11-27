@@ -19,6 +19,44 @@
     </video>
 
     <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+
+      <div id="log" style="width:100%; height:90%; overflow:auto;"></div>
+      <script language="javascript" type="text/JavaScript">
+          var iteration = 0;
+          function getLog(log, lines) {
+              var url = "/uploads/simple/?log=" + log + "&lines=" + lines;
+              request.open("GET", url, true);
+              request.onreadystatechange = updatePage;
+              request.send(null);
+          }
+
+          function tail(command,log,lines) {
+              if (command == "start") {
+                  document.getElementById("watchStart").disabled = true;
+                  document.getElementById("watchStop").disabled = false;
+                  timer = setInterval(function() { iteration++; getLog(log, iteration);},3000);
+              } else {
+                  document.getElementById("watchStart").disabled = false;
+                  document.getElementById("watchStop").disabled = true;
+                  clearTimeout(timer);
+              }
+          }
+
+          function updatePage() {
+              if (request.readyState == 4) {
+                  if (request.status == 200) {
+                      document.getElementById("log").innerHTML = request.responseText;
+                  }
+              }
+          }
+
+          var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : (window.ActiveXObject ? new window.ActiveXObject("Microsoft.XMLHTTP") : false);
+      </script>
+      <td style="width:100px;">Analyze</td>
+      <td>
+          <input type="button" style="width:40px; 0px" id="watchStart" name="watch" value="Start" onclick="tail('start', 'logfile.log', 100);">
+          <input type="button" style="width:40px; 0px" id="watchStop" name="watch" value="Stop" disabled=true onclick="tail('stop','','');">
+      </td>
   {% endif %}
 
   <p><a href="{% url 'home' %}">Return to home</a></p>
