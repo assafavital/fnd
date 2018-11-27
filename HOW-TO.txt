@@ -1,0 +1,50 @@
+Open scoring:
+------------
+
+Project on GitHub:
+https://github.com/openscoring/openscoring
+
+Install openscoring python client from anaconda prompt:
+pip install --index-url https://github.com/openscoring/openscoring-python.git/ openscoring-python
+pip install --user --upgrade git+https://github.com/openscoring/openscoring-python.git
+
+Running open scoring server:
+---------------------------
+
+(Download open scoring server JAR from Github above and use Java8 to execute the command below)
+$JAVA_HOME\bin\java -jar openscoring-server-executable-1.4.3.jar
+
+
+To view the model after server running and model was deployed:
+http://localhost:8080/openscoring/model/FakeNewsDetector
+
+
+Running Django UI:
+-----------------
+
+Example:
+-------
+
+The code used in this post is available on Github.
+git clone https://github.com/sibtc/simple-file-upload.git --> change the "-" to "_"
+pip install django
+python manage.py migrate
+python manage.py runserver
+
+
+Running our modified server in PyCharm:
+--------------------------------------
+
+- unzip the simple_file_upload.zip from https://github.com/assafavital/fnd
+- create new django project, open root directory of what you unzipped and choose anaconda3 interpreter.  
+- run from pycharm launcher
+
+MISC:
+----
+
+For using NLTK:
+
+From anaconda prompt:
+python
+>>> import nltk
+>>> nltk.download('punkt')
