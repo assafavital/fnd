@@ -1,4 +1,5 @@
 from openscoring import Openscoring
+import json
 import os
 
 class FNDOpenScoring:
@@ -11,12 +12,13 @@ class FNDOpenScoring:
         }
 
     def _deploy(self):
-        self.scoring.deployFile("FakeNewsDetector", "FakeNewsAIModel.pmml", {"auth": ("admin", "adminadmin")})
+        self.scoring.deployFile("FakeNewsDetector", "FakeNewsAIModel.pmml", **{"auth": ("admin", "adminadmin")})
 
     def _setArgs(self, jsonString):
-        self.arguments["similarWebAvgScore"] = jsonString['average']
-        self.arguments["similarWebStdScore"] = jsonString['variance']
-        self.arguments["sourceTaggedAsFakeCount"] = jsonString['blacklisted']
+        jsonObj = json.loads(jsonString)
+        self.arguments["similarWebAvgScore"] = jsonObj['average']
+        self.arguments["similarWebStdScore"] = jsonObj['variance']
+        self.arguments["sourceTaggedAsFakeCount"] = jsonObj['blacklisted']
 
     def __call__(self, jsonString):
         self._deploy()
