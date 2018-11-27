@@ -26,7 +26,11 @@ class TextExtractor:
         with SR.AudioFile("{}.wav".format(audio_path)) as source:
             audio = recognizer.record(source)
 
-        print(recognizer.recognize_sphinx(audio))
+        recognized = recognizer.recognize_sphinx(audio)
+        print(recognized)
+
+        with open(text_path, "w") as f:
+            f.write(recognized)
 
 
 ### MAIN
@@ -38,4 +42,4 @@ args = ap.parse_args()
 extractor = AudioExtractor()
 extractor.extract(args.input, args.output)
 
-TextExtractor().extract(args.output, "nofile")
+TextExtractor().extract(args.output, "stt_output.txt")
