@@ -19,12 +19,12 @@
             <MiningField name="reporterScore"/>
             <MiningField name="probabilityOfFakeNews" usageType="target"/>
         </MiningSchema>
-        <RegressionTable targetCategory="fake news probability" intercept="-3.721156349">
-            <NumericPredictor coefficient="0.00104694764853" name="similarWebAvgScore"/>
+        <RegressionTable targetCategory="fake news probability" intercept="-1.721156349">
+            <NumericPredictor coefficient="0.504694764853" name="similarWebAvgScore"/>
             <NumericPredictor coefficient="0.2056938264853" name="similarWebStdScore"/>
-            <NumericPredictor coefficient="-0.000255695157276" name="sourceTaggedAsFakeCount"/>
-            <NumericPredictor coefficient="-0.000879640707112" name="fakeFactSitesCount"/>
-            <NumericPredictor coefficient="0.02033046621648" name="reporterScore"/>
+            <NumericPredictor coefficient="-0.300255695157276" name="sourceTaggedAsFakeCount"/>
+            <NumericPredictor coefficient="-0.879640707112" name="fakeFactSitesCount"/>
+            <NumericPredictor coefficient="0.00020330466648" name="reporterScore"/>
         </RegressionTable>
     </RegressionModel>
 </PMML>
