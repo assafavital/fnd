@@ -17,7 +17,7 @@ if __name__ == "__main__":
 
     # Generate keywords for Google Search API
     vectorizer = FNDVectorizer()
-    query = vectorizer(text)
+    query = vectorizer([text])
 
     # Execute Google Search
     searcher = FNDGoogleSearcher()
